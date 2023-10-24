@@ -1,21 +1,20 @@
 const express = require('express');
-const mongoose = require('mongoose');
-//const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
 const commentsRoutes = require('./routes/comments');
 
+const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 require('dotenv').config();
 require("./config/db.js");
 
-
-const app = express();
-const port = process.env.PORT || 3000;
-
-
-
-//app.use(bodyParser.json());
-app.use(express.json());
+const port = process.env.PORT;
+// Configurar una ruta para acceder a las imágenes cargadas
+app.use('/uploads', express.static(__dirname + '/uploads'));
 //aplicando las rutas 
 app.use('/auth', authRoutes);
 app.use('/posts', postRoutes);
