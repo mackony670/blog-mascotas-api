@@ -1,7 +1,6 @@
 // middleware/auth.js
-
-const jwtSecretKey=require("../config/jwt")
 const jwt = require('jsonwebtoken');
+const {jwtSecretKey}=require("../config/jwt.js")
 
 exports.authenticate = (req, res, next) => {
   const token = req.headers.authorization;
@@ -11,9 +10,9 @@ exports.authenticate = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, jwtSecretKey); // Reemplaza 'tu_secreto' con tu clave secreta real
+    const decoded = jwt.verify(token, jwtSecretKey);
     req.user = {
-      _id: decoded.userId,
+      _id: decoded.id,
     };
     next();
   } catch (error) {
@@ -32,4 +31,3 @@ exports.authorize = (req, res, next) => {
     return res.status(403).json({ error: 'No tienes permisos para realizar esta acción' });
   }
 };
-
