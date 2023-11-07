@@ -39,6 +39,10 @@ const postSchema = new mongoose.Schema({
     enum: ['publicado', 'borrador', 'programado'],
     default: 'borrador',
   },
+  imageUrl:{
+    type:String,
+    required:false
+  }
 });
 
 const Post = mongoose.model('Post', postSchema);
