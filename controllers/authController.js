@@ -3,8 +3,8 @@ const jwtUtils = require('../utils/jwtUtils');
 const bcrypt = require('bcrypt');
 
 exports.register = async (req, res) => {
-  const { username, email, password } = req.query;
-  //console.log(req.query);
+  const { username, email, password } = req.body;
+  
   
   try {
     // Verificar si el usuario o el correo ya existen
@@ -17,7 +17,8 @@ exports.register = async (req, res) => {
     const newUser = await User.create({ username, email, password });
     
     // Generar token de autenticación
-    const token = jwtUtils.generateToken(newUser._id);
+    const pyload = {username,email,_id:newUser._id}
+    const token = jwtUtils.generateToken(pyload);
 
     res.json({ token, user: { username: newUser.username, email: newUser.email } });
   } catch (error) {
@@ -28,8 +29,7 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { username, password } = req.query;
-
+  const { username, password } = req.body;
   try {
     // Verificar si el usuario existe
     const user = await User.findOne({ username });
@@ -44,7 +44,7 @@ exports.login = async (req, res) => {
     }
 
     // Generar token de autenticación
-    const token = jwtUtils.generateToken(user._id);
+    const token = jwtUtils.generateToken({id:user._id,email:user.email,username:user.username});
 
     res.json({ token, user: { username: user.username, email: user.email } });
   } catch (error) {
