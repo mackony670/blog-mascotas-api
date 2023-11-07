@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const postsController = require('../controllers/postsController');
+const {createPost,deletePost,getAllPosts,getPostById,updatePost} = require('../controllers/post controller/index');
 
 
 // Middleware de autorización
-const { authenticate, authorize } = require('../middleware/authMiddleware'); // Asume que ya tienes middleware para autenticación y autorización
+const { authenticate, authorize } = require('../middleware/authMiddleware'); 
+const { uploadFile } = require('../middleware/multerConfig'); 
 
-router.get('/', postsController.getAllPosts);
-router.get('/:postId', postsController.getPostById);
-router.post('/',authenticate, postsController.createPost);
-router.put('/:postId',authenticate, postsController.updatePost);
-router.delete('/:postId', authenticate,postsController.deletePost);
-
+//rutas de los posts
+router.get('/', getAllPosts);
+router.get('/:postId', getPostById);
+router.post('/create',authenticate,uploadFile,createPost);
+router.put('/:postId',authenticate,updatePost);
+router.delete('/:postId', authenticate,deletePost);
 module.exports = router;
