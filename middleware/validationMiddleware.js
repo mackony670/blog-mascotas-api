@@ -3,6 +3,7 @@
 const { validationResult } = require('express-validator');
 
 const validationMiddleware = (req, res, next) => {
+  console.log(req.body)
   // Ejecutar las validaciones definidas en las rutas correspondientes
   const errors = validationResult(req);
 
