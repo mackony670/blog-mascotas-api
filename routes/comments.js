@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const commentsController = require('../controllers/commentsController');
+//aplicando destructurin a comentsController
+const {createComment,deleteComment,getAllComments,getCommentById,updateComment} = commentsController
 
-router.get('/', commentsController.getAllComments);
-router.get('/:commentId', commentsController.getCommentById);
-router.post('/', commentsController.createComment);
-router.put('/:commentId', commentsController.updateComment);
-router.delete('/:commentId', commentsController.deleteComment);
+router.get('/', getAllComments);
+router.get('/:commentId', getCommentById);
+router.post('/', createComment);
+router.put('/:commentId', updateComment);
+router.delete('/:commentId', deleteComment);
 
 module.exports = router;
